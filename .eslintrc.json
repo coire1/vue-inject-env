@@ -23,14 +23,16 @@
 		"prettier"
 	],
 	"rules": {
-		"no-unused-vars": "warn",
+		"no-unused-vars": "off",
 		"no-constant-condition": "warn",
 		"no-empty": "warn",
 		"consistent-return": "error",
-		"@typescript-eslint/explicit-function-return-type": "warn",
+		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/camelcase": "off",
 		"@typescript-eslint/class-name-casing": "off",
 		"@typescript-eslint/ban-ts-ignore": "off",
+		"@typescript-eslint/no-non-null-assertion": "off",
+		"@typescript-eslint/no-explicit-any": "off",
 		"prettier/prettier": "warn",
 		"prefer-const": "off"
 	}

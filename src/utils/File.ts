@@ -23,7 +23,7 @@ export function copyFolder(dir: string, copyDir: string): string {
   return copyDir
 }
 
-export function replaceFile(dirPath: string, envConfig: Record<string, string>) {
+export function replaceFile(dirPath: string, envConfig: Record<string, string>): void {
   const { from, to } = generateFromTo(envConfig)
   const results = replace.sync({
     files: `${dirPath}/**/*`,
@@ -38,14 +38,17 @@ export function replaceFile(dirPath: string, envConfig: Record<string, string>) 
   })
 }
 
-export function replaceFilesInDir(dir: string) {
-  const envCfg = { ...retrieveDotEnvCfg(), ...retrieveReactEnvCfg() }
+export function replaceFilesInDir(dir: string, envVariablePrefix: string): void {
+  const envCfg = {
+    ...retrieveDotEnvCfg(envVariablePrefix),
+    ...retrieveReactEnvCfg(envVariablePrefix)
+  }
   console.info('Injecting the following environment variables:')
   console.info(envCfg)
   replaceFile(dir, envCfg)
 }
 
-export function outputEnvFile(folder: string, fileName: string, envCfg: Record<string, string>, varName: string) {
+export function outputEnvFile(folder: string, fileName: string, envCfg: Record<string, string>, varName: string): void {
   shell.mkdir('-p', './build')
   console.info('Setting the following environment variables:')
   console.info(envCfg)

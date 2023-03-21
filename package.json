@@ -1,13 +1,13 @@
 {
-  "name": "react-inject-env",
-  "version": "2.1.0",
-  "description": "Tool to inject environment variables into your React build",
-  "author": "es-lynn",
+  "name": "vue-inject-env",
+  "version": "1.0.0",
+  "description": "Tool to inject environment variables into your Vue+Vite build",
+  "author": "coire1",
   "license": "MIT",
-  "repository": "https://github.com/codegowhere/react-inject-env",
+  "repository": "https://github.com/coire1/vue-inject-env",
   "main": "dist/index.js",
   "bin": {
-    "react-inject-env": "dist/cli.js"
+    "vue-inject-env": "dist/cli.js"
   },
   "scripts": {
     "prepublish": "tsc --incremental false",
@@ -27,11 +27,11 @@
     "@types/jest": "^26.0.24",
     "@types/node": "^13.1.4",
     "@types/shelljs": "^0.8.9",
-    "@typescript-eslint/eslint-plugin": "^2.14.0",
-    "@typescript-eslint/parser": "^2.10.0",
+    "@typescript-eslint/eslint-plugin": "^5.50.0",
+    "@typescript-eslint/parser": "^5.50.0",
     "dotenv-cli": "^4.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^26.6.3",
     "prettier": "^2.4.1",

@@ -24,14 +24,21 @@ export class SetAction extends CommandLineAction {
     return this._varName.value!
   }
 
+  private _envVariablePrefix!: CommandLineStringParameter
+  get envVariablePrefix(): string {
+    // --prefix has a default value of 'REACT_APP_'
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this._envVariablePrefix.value!
+  }
+
   protected onDefineParameters(): void {
     this._dir = this.defineStringParameter({
       description: 'Specify the location of your build folder',
       parameterLongName: '--dir',
       parameterShortName: '-d',
       argumentName: 'PATH_TO_BUILD_FOLDER',
-      defaultValue: './build',
-      required: false,
+      defaultValue: './dist',
+      required: false
     })
 
     this._fileName = this.defineStringParameter({
@@ -40,7 +47,7 @@ export class SetAction extends CommandLineAction {
       parameterShortName: '-n',
       argumentName: 'NAME_OF_ENV_FILE',
       defaultValue: 'env.js',
-      required: false,
+      required: false
     })
 
     this._varName = this.defineStringParameter({
@@ -49,7 +56,16 @@ export class SetAction extends CommandLineAction {
       parameterShortName: '-v',
       argumentName: 'VAR_NAME',
       defaultValue: 'env',
-      required: false,
+      required: false
+    })
+
+    this._envVariablePrefix = this.defineStringParameter({
+      description: 'Specify the prefix of environment variables to load',
+      parameterLongName: '--prefix',
+      parameterShortName: '-p',
+      argumentName: 'ENV_VAR_PREFIX',
+      defaultValue: 'VITE_',
+      required: false
     })
   }
 
@@ -57,12 +73,15 @@ export class SetAction extends CommandLineAction {
     super({
       actionName: 'set',
       summary: 'Set environment variables into your React /build folder.',
-      documentation: 'TODO',
+      documentation: 'TODO'
     })
   }
 
   protected async onExecute(): Promise<void> {
-    const envCfg = { ...retrieveDotEnvCfg(), ...retrieveReactEnvCfg() }
+    const envCfg = {
+      ...retrieveDotEnvCfg(this.envVariablePrefix),
+      ...retrieveReactEnvCfg(this.envVariablePrefix)
+    }
     outputEnvFile(this.dir, this.fileName, envCfg, this.varName)
   }
 }

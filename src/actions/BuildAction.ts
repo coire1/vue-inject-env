@@ -2,7 +2,8 @@ import {
   CommandLineAction,
   CommandLineChoiceParameter,
   CommandLineRemainder,
-  CommandLineStringListParameter
+  CommandLineStringListParameter,
+  CommandLineStringParameter
 } from '@rushstack/ts-command-line'
 import { retrieveDotEnvCfg, retrieveReactEnvCfg } from '../utils/Utils'
 import shell from 'shelljs'
@@ -26,6 +27,13 @@ export class BuildAction extends CommandLineAction {
     return this._bypassEnvVar.values as string[]
   }
 
+  private _envVariablePrefix!: CommandLineStringParameter
+  get envVariablePrefix(): string {
+    // --prefix has a default value of 'VITE_'
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this._envVariablePrefix.value!
+  }
+
   public constructor() {
     super({
       actionName: 'build',
@@ -35,8 +43,8 @@ export class BuildAction extends CommandLineAction {
   }
 
   protected async onExecute(): Promise<void> {
-    const dotEnvCfg = this.dotEnvEnabled ? retrieveDotEnvCfg() : {}
-    const env = { ...dotEnvCfg, ...retrieveReactEnvCfg() }
+    const dotEnvCfg = this.dotEnvEnabled ? retrieveDotEnvCfg(this.envVariablePrefix) : {}
+    const env = { ...dotEnvCfg, ...retrieveReactEnvCfg(this.envVariablePrefix) }
     console.info('Building with the following variables', Obj.pick(env, this.bypassEnvVar))
 
     const filteredEnv = Obj.omit(env, this.bypassEnvVar)
@@ -58,13 +66,21 @@ export class BuildAction extends CommandLineAction {
 
     this._bypassEnvVar = this.defineStringListParameter({
       parameterLongName: '--bypass',
-      description:
-        'react-inject-env will use these environment variables when building and not substitute placeholders',
+      description: 'vue-inject-env will use these environment variables when building and not substitute placeholders',
       argumentName: 'ENV_VARIABLE_NAME'
     })
 
+    this._envVariablePrefix = this.defineStringParameter({
+      description: 'Specify the prefix of environment variables to load',
+      parameterLongName: '--prefix',
+      parameterShortName: '-p',
+      argumentName: 'ENV_VAR_PREFIX',
+      defaultValue: 'VITE_',
+      required: false
+    })
+
     this._userCommand = this.defineCommandLineRemainder({
-      description: 'Enter your build command here (eg. `react-inject-env build npm run build`)'
+      description: 'Enter your build command here (eg. `vue-inject-env build npm run build`)'
     })
   }
 }
