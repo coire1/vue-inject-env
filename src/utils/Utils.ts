@@ -1,12 +1,12 @@
-export function retrieveReactEnvCfg(envVariablePrefix: string): Record<string, string> {
+export function retrieveVueEnvCfg(envVariablePrefix: string): Record<string, string> {
   const env = process.env
   const keys = Object.keys(env)
-  const reactKeys = keys.filter((key) => {
+  const vueKeys = keys.filter((key) => {
     return key.startsWith(envVariablePrefix) || key === 'PUBLIC_URL'
   })
 
   const envCfg: Record<string, string> = {}
-  for (const key of reactKeys) {
+  for (const key of vueKeys) {
     envCfg[key] = process!.env[key]!
   }
   return envCfg
@@ -17,12 +17,12 @@ export function retrieveDotEnvCfg(envVariablePrefix: string): Record<string, str
   const env = require('dotenv').config().parsed ?? {}
 
   const keys = Object.keys(env)
-  const reactKeys = keys.filter((key) => {
+  const vueKeys = keys.filter((key) => {
     return key.startsWith(envVariablePrefix) || key === 'PUBLIC_URL'
   })
 
   const envCfg: Record<string, string> = {}
-  for (const key of reactKeys) {
+  for (const key of vueKeys) {
     envCfg[key] = process.env[key]!
   }
   return envCfg

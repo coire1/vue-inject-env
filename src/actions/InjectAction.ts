@@ -16,7 +16,7 @@ export class InjectAction extends CommandLineAction {
 
   private _envVariablePrefix!: CommandLineStringParameter
   get envVariablePrefix(): string {
-    // --prefix has a default value of 'REACT_APP_'
+    // --prefix has a default value of 'VITE_'
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this._envVariablePrefix.value!
   }

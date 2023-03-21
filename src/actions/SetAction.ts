@@ -1,6 +1,6 @@
 import { CommandLineAction, CommandLineStringParameter } from '@rushstack/ts-command-line'
 import { outputEnvFile } from '../utils/File'
-import { retrieveDotEnvCfg, retrieveReactEnvCfg } from '../utils/Utils'
+import { retrieveDotEnvCfg, retrieveVueEnvCfg } from '../utils/Utils'
 
 export class SetAction extends CommandLineAction {
   private _dir!: CommandLineStringParameter
@@ -72,7 +72,7 @@ export class SetAction extends CommandLineAction {
   public constructor() {
     super({
       actionName: 'set',
-      summary: 'Set environment variables into your React /build folder.',
+      summary: 'Set environment variables into your Vue /build folder.',
       documentation: 'TODO'
     })
   }
@@ -80,7 +80,7 @@ export class SetAction extends CommandLineAction {
   protected async onExecute(): Promise<void> {
     const envCfg = {
       ...retrieveDotEnvCfg(this.envVariablePrefix),
-      ...retrieveReactEnvCfg(this.envVariablePrefix)
+      ...retrieveVueEnvCfg(this.envVariablePrefix)
     }
     outputEnvFile(this.dir, this.fileName, envCfg, this.varName)
   }

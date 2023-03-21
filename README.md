@@ -49,7 +49,7 @@ Using `vite`, you can just run `npm run build`.
 ### 4. Inject environment variables
 
 ```
-[env variables] npx react-inject-env set
+[env variables] npx vue-inject-env set
 ```
 
 Pass in all your environment variables.

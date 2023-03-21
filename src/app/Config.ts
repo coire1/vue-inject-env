@@ -1,5 +1,5 @@
 export const Cfg = {
-  NAME: 'react-inject-env',
+  NAME: 'vue-inject-env',
 
-  PLACEHOLDER_2: 'ReactInjectEnv_'
+  PLACEHOLDER_2: 'VueInjectEnv_'
 } as const

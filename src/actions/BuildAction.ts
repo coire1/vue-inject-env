@@ -5,7 +5,7 @@ import {
   CommandLineStringListParameter,
   CommandLineStringParameter
 } from '@rushstack/ts-command-line'
-import { retrieveDotEnvCfg, retrieveReactEnvCfg } from '../utils/Utils'
+import { retrieveDotEnvCfg, retrieveVueEnvCfg } from '../utils/Utils'
 import shell from 'shelljs'
 import { Obj } from '@aelesia/commons'
 import { parseBoolean, parseCommand } from '../utils/Parse'
@@ -37,14 +37,14 @@ export class BuildAction extends CommandLineAction {
   public constructor() {
     super({
       actionName: 'build',
-      summary: 'Build your react app with placeholder variables',
+      summary: 'Build your Vue app with placeholder variables',
       documentation: 'TODO'
     })
   }
 
   protected async onExecute(): Promise<void> {
     const dotEnvCfg = this.dotEnvEnabled ? retrieveDotEnvCfg(this.envVariablePrefix) : {}
-    const env = { ...dotEnvCfg, ...retrieveReactEnvCfg(this.envVariablePrefix) }
+    const env = { ...dotEnvCfg, ...retrieveVueEnvCfg(this.envVariablePrefix) }
     console.info('Building with the following variables', Obj.pick(env, this.bypassEnvVar))
 
     const filteredEnv = Obj.omit(env, this.bypassEnvVar)

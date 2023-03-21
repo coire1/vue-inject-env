@@ -12,7 +12,7 @@ const readFile = (dir: string): string => {
   return shell.cat(dir).toString()
 }
 
-describe('react-inject-env', () => {
+describe('vue-inject-env', () => {
   describe('Build', () => {
     const buildFile = () => {
       const commandLine = new InjectEnvCommandLine()
@@ -24,17 +24,17 @@ describe('react-inject-env', () => {
     it('should build file with placeholders from process.env', () => {
       process.env['VITE_PROCESS_ENV'] = ''
       const file = buildFile()
-      expect(file).toContain('VITE_PROCESS_ENV: ReactInjectEnv_VITE_PROCESS_ENV')
+      expect(file).toContain('VITE_PROCESS_ENV: VueInjectEnv_VITE_PROCESS_ENV')
     })
     it('should take in PUBLIC_URL env variable', () => {
       process.env['PUBLIC_URL'] = ''
       const file = buildFile()
-      expect(file).toContain('PUBLIC_URL: ReactInjectEnv_PUBLIC_URL')
+      expect(file).toContain('PUBLIC_URL: VueInjectEnv_PUBLIC_URL')
     })
     it('should build file with placeholders from dotenv file', () => {
       shell.exec('echo VITE_DOT_ENV = DOT_ENV > .env')
       const file = buildFile()
-      expect(file).toContain('VITE_DOT_ENV: ReactInjectEnv_VITE_DOT_ENV')
+      expect(file).toContain('VITE_DOT_ENV: VueInjectEnv_VITE_DOT_ENV')
     })
     it('should not overwrite variables that are not passed in', () => {
       const file = buildFile()
@@ -46,7 +46,7 @@ describe('react-inject-env', () => {
       const commandLine = new InjectEnvCommandLine()
       commandLine.execute(['build', '--prefix', 'MY_CUSTOM_PREFIX_', 'sh', 'tests/scripts/buildFile.sh'])
       const file = readFile('tests/output/test.txt')
-      expect(file).toContain(`MY_CUSTOM_PREFIX_TEST_VAR: ReactInjectEnv_MY_CUSTOM_PREFIX_TEST_VAR`)
+      expect(file).toContain(`MY_CUSTOM_PREFIX_TEST_VAR: VueInjectEnv_MY_CUSTOM_PREFIX_TEST_VAR`)
       expect(file).toContain('GENERIC_ENV: \n')
     })
 
@@ -126,7 +126,7 @@ describe('react-inject-env', () => {
       buildFile()
       const commandLine = new InjectEnvCommandLine()
       commandLine.execute(['inject', '-d', 'tests/output', '-o', 'tests/output2'])
-      expect(readFile('tests/output/test4.txt')).toContain('VITE_INJECT_ENV4: ReactInjectEnv_VITE_INJECT_ENV4')
+      expect(readFile('tests/output/test4.txt')).toContain('VITE_INJECT_ENV4: VueInjectEnv_VITE_INJECT_ENV4')
       expect(readFile('tests/output2/test4.txt')).toContain('VITE_INJECT_ENV4: D')
     })
   })
